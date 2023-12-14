@@ -1,8 +1,18 @@
 import express from 'express'  //ESM
 import servicesRoutes from './routes/servicesRoutes.js'
+import { db } from './config/db.js'
+import dotenv from 'dotenv'
+
+
+// Variables
+dotenv.config()
+
 
 // Set up App
 const app = express()
+
+// DB Conection
+db()
 
 // Define Route
 // use to http request
