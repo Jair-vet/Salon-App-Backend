@@ -1,0 +1,19 @@
+{
+  "name": "appsalon_mevn_backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend to appSalon en MEVN",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Jair Aceves",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
