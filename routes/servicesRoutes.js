@@ -1,12 +1,13 @@
 import express from 'express'
-import { services } from '../data/beautyServices.js'
+import { createService, getServices, getServiceById, updateService, deleteService } from '../controllers/servicesController.js'
 
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-
-    res.json(services)
-})
+router.post('/', createService)
+router.get('/', getServices)
+router.get('/:id', getServiceById)
+router.put('/:id', updateService)
+router.delete('/:id', deleteService)
 
 export default router

@@ -11,12 +11,19 @@ dotenv.config()
 // Set up App
 const app = express()
 
+
+// Read data
+app.use(express.json())
+
+
 // DB Conection
 db()
+
 
 // Define Route
 // use to http request
 app.use('/api/services', servicesRoutes)
+
 
 // Define Port
 const PORT = process.env.PORT || 4000
