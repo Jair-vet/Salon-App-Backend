@@ -2,7 +2,7 @@ import express from 'express'  //ESM
 import servicesRoutes from './routes/servicesRoutes.js'
 import { db } from './config/db.js'
 import dotenv from 'dotenv'
-
+import cors from 'cors'
 
 // Variables
 dotenv.config()
@@ -18,6 +18,28 @@ app.use(express.json())
 
 // DB Conection
 db()
+
+// Configurar CORS
+// const whitelist = [process.env.FRONTEND_URL]
+const whitelist = [process.env.FRONTEND_URL]
+
+if(process.argv[2] === '--postman'){
+  whitelist.push(undefined)
+}
+
+const corsOptions = {
+    origin: function (origin, callback) {
+      if (whitelist.includes(origin)) {
+        // Puede consultar la API
+        callback(null, true);
+      } else {
+        // No esta permitido
+        callback(new Error("Error in Cors"));
+      }
+    },
+};
+
+app.use(cors(corsOptions))
 
 
 // Define Route
