@@ -1,4 +1,3 @@
-import { services } from "../data/beautyServices.js"
 import Services from "../models/Services.js"
 import { validateObjectId, handleNotFoundError } from '../utils/index.js'
 
