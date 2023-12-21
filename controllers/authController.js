@@ -62,32 +62,33 @@ const verifyAccount = async (req, res) => {
     }
 } 
 
-// const login = async (req, res) => {
-//     const { email, password } = req.body
-//     // Revisar que el usuario exista
-//     const user = await User.findOne({email})
-//     if(!user) {
-//         const error = new Error('El Usuario no existe')
-//         return res.status(401).json({msg: error.message})
-//     }
-// 
-//     // Revisar si el usuario confirmo su cuenta
-//     if(!user.verified) {
-//         const error = new Error('Tu cuenta no ha sido confirmado aún')
-//         return res.status(401).json({msg: error.message})
-//     }
-// 
-//     // Comprobar el password
-//     if(await user.checkPassword(password)) {
-//         const token = generateJWT(user._id)
-//         res.json({
-//             token
-//         })
-//     } else {
-//         const error = new Error('El password es incorrecto')
-//         return res.status(401).json({msg: error.message})
-//     }
-// }
+const login = async (req, res) => {
+    const { email, password } = req.body
+
+    // Revisar que el usuario exista
+    const user = await User.findOne({email})
+    if(!user) {
+        const error = new Error('Username does not exist')
+        return res.status(401).json({msg: error.message})
+    }
+
+    // Revisar si el usuario confirmo su cuenta
+    if(!user.verified) {
+        const error = new Error('Your account has not been confirmed yet')
+        return res.status(401).json({msg: error.message})
+    }
+
+    // Comprobar el password
+    if(await user.checkPassword(password)) {
+        const token = generateJWT(user._id)
+        res.json({
+            token
+        })
+    } else {
+        const error = new Error('The password is incorrect')
+        return res.status(401).json({msg: error.message})
+    }
+}
 
 // const forgotPassword = async (req, res) => {
 //     const { email } = req.body
@@ -178,7 +179,7 @@ const verifyAccount = async (req, res) => {
 export {
     register,
     verifyAccount,
-    // login,
+    login,
     // forgotPassword,
     // verifyPasswordResetToken,
     // updatePassword,
