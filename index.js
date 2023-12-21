@@ -1,5 +1,6 @@
 import express from 'express'  //ESM
 import servicesRoutes from './routes/servicesRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 import { db } from './config/db.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -45,6 +46,7 @@ app.use(cors(corsOptions))
 // Define Route
 // use to http request
 app.use('/api/services', servicesRoutes)
+app.use('/api/auth', authRoutes)
 
 
 // Define Port
