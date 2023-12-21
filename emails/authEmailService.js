@@ -11,7 +11,7 @@ export async function sendEmailVerification({name, email, token }) {
     // Send email
     const info = await transporter.sendMail({
         from: 'AppSalon <cuentas@appsalon.com>',
-        to: 'correo@correo.com',
+        to: email,
         subject: "AppSalon - Confirm your Account",
         text: "AppSalon - Confirm your Account",
         html: `<p>Hello: ${name}, Confirm your Account en AppSalon</p>

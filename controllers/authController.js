@@ -1,5 +1,5 @@
 import User from '../models/User.js'
-// import { sendEmailVerification, sendEmailPasswordReset } from '../emails/authEmailService.js'
+import { sendEmailVerification, /* sendEmailPasswordReset */ } from '../emails/authEmailService.js'
 import { generateJWT, uniqueId } from '../utils/index.js'
 
 const register = async (req, res) => {
@@ -32,10 +32,10 @@ const register = async (req, res) => {
 
         const { name, email, token} = result
         
-        // sendEmailVerification({name, email, token })
+        sendEmailVerification({name, email, token })
 
         res.json({
-            msg: 'El usuario se creo correctamente, revisa tu email'
+            msg: 'The user was created correctly, check your email'
         })
     } catch (error) {
         console.log(error)   
