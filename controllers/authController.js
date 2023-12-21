@@ -154,12 +154,12 @@ const login = async (req, res) => {
 //     }
 // }
 
-// const user = async (req, res) => {
-//     const { user } = req
-//     res.json(
-//         user
-//     )
-// }
+const user = async (req, res) => {
+    const { user } = req
+    res.json(
+        user
+    )
+}
 
 // const admin = async (req, res) => {
 //     const { user } = req
@@ -183,6 +183,6 @@ export {
     // forgotPassword,
     // verifyPasswordResetToken,
     // updatePassword,
-    // user,
+    user,
     // admin
 }
