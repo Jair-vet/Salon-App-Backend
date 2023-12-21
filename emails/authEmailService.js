@@ -16,7 +16,7 @@ export async function sendEmailVerification({name, email, token }) {
         text: "AppSalon - Confirm your Account",
         html: `<p>Hello: ${name}, Confirm your Account en AppSalon</p>
             <p>Your account is almost ready, you just have to confirm it in the link:</p>
-            <a href="${process.env.FRONTEND_URL}/api/auth/confirmar-cuenta/${token}">Confirm Account</a>
+            <a href="${process.env.FRONTEND_URL}/auth/confirmar-cuenta/${token}">Confirm Account</a>
             <p>If you did not create this account, you can ignore this message</p>
         `
     })

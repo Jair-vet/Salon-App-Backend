@@ -13,11 +13,11 @@ const authMiddleware = async ( req, res, next) => {
 
             next()
         } catch {
-            const error = new Error('Token no válido')
+            const error = new Error('Invalid Token')
             res.status(403).json({msg: error.message})
         }
     } else {
-        const error = new Error('Token no válido o inexistente')
+        const error = new Error('Invalid or non-existent token')
         res.status(403).json({msg: error.message})
     }
 }
