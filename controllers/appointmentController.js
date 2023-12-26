@@ -17,7 +17,7 @@ const createAppointment = async (req, res) => {
         // })
 
         res.json({
-            msg: 'Tu Reservación se realizó correctamente'
+            msg: 'Your Reservation was made correctly'
         })
     } catch (error) {
         console.log(error)
