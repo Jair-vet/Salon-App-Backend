@@ -9,7 +9,7 @@ const createAppointment = async (req, res) => {
     appointment.user = req.user._id.toString()
     try {
         const newAppointment = new Appointment(appointment)
-        const result = await newAppointment.save()
+        await newAppointment.save()
 
         // await sendEmailNewAppointment({
         //     date: formatDate( result.date ),
@@ -30,7 +30,7 @@ const getAppointmentsByDate = async (req, res ) => {
     const newDate = parse(date, 'dd/MM/yyyy', new Date())
 
     if(!isValid(newDate)) {
-        const error = new Error('Fecha no válida')
+        const error = new Error('Invalid Date')
         return res.status(400).json({  msg: error.message })
     }
 
