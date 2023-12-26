@@ -1,4 +1,4 @@
-// import { parse, formatISO, startOfDay, endOfDay, isValid } from 'date-fns'
+import { parse, formatISO, startOfDay, endOfDay, isValid } from 'date-fns'
 import Appointment from '../models/Appointment.js'
 // import { validateObjectId, handleNotFoundError, formatDate } from '../utils/index.js'
 // import { sendEmailNewAppointment, sendEmailUpdateAppointment, sendEmailCancelledAppointment } from '../emails/appointmentEmailService.js'
@@ -24,24 +24,25 @@ const createAppointment = async (req, res) => {
     }
 }
 
-// const getAppointmentsByDate = async (req, res ) => {
-//     const { date } = req.query
-// 
-//     const newDate = parse(date, 'dd/MM/yyyy', new Date())
-// 
-//     if(!isValid(newDate)) {
-//         const error = new Error('Fecha no válida')
-//         return res.status(400).json({  msg: error.message })
-//     }
-// 
-//     const isoDate = formatISO(newDate)
-//     const appointments = await Appointment.find({ date: {
-//         $gte : startOfDay(new Date(isoDate)),
-//         $lte: endOfDay(new Date(isoDate))
-//     }}).select('time')
-// 
-//     res.json(appointments)
-// }
+const getAppointmentsByDate = async (req, res ) => {
+    const { date } = req.query
+
+    const newDate = parse(date, 'dd/MM/yyyy', new Date())
+
+    if(!isValid(newDate)) {
+        const error = new Error('Fecha no válida')
+        return res.status(400).json({  msg: error.message })
+    }
+
+    const isoDate = formatISO(newDate)
+    const appointments = await Appointment.find({ 
+        date: {
+            $gte : startOfDay(new Date(isoDate)),
+            $lte: endOfDay(new Date(isoDate))
+    }}).select('time')
+
+    res.json(appointments)
+}
 
 // const getAppointmentById = async (req, res) => {
 //     const { id } = req.params
@@ -137,7 +138,7 @@ const createAppointment = async (req, res) => {
 
 export {
     createAppointment,
-    // getAppointmentsByDate,
+    getAppointmentsByDate,
     // getAppointmentById,
     // updateAppointment,
     // deleteAppointment
