@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 import jwt from 'jsonwebtoken'
-// import { format } from 'date-fns'
+import { format } from 'date-fns'
 // import es from 'date-fns/locale/es/index.js'
 
 function validateObjectId(id, res) {
@@ -29,7 +29,7 @@ const generateJWT = (id) => {
 }
 
 function formatDate(date) {
-    return format(date, 'PPPP', {locale: es})
+    return format(date, 'PPPP')
 }
 
 

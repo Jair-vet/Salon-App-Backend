@@ -1,7 +1,7 @@
 import { parse, formatISO, startOfDay, endOfDay, isValid } from 'date-fns'
 import Appointment from '../models/Appointment.js'
 import { validateObjectId, handleNotFoundError, formatDate } from '../utils/index.js'
-// import { sendEmailNewAppointment, sendEmailUpdateAppointment, sendEmailCancelledAppointment } from '../emails/appointmentEmailService.js'
+import { sendEmailNewAppointment, sendEmailUpdateAppointment, sendEmailCancelledAppointment } from '../emails/appointmentEmailService.js'
 
 
 const createAppointment = async (req, res) => {
@@ -9,12 +9,12 @@ const createAppointment = async (req, res) => {
     appointment.user = req.user._id.toString()
     try {
         const newAppointment = new Appointment(appointment)
-        await newAppointment.save()
+        const result = await newAppointment.save()
 
-        // await sendEmailNewAppointment({
-        //     date: formatDate( result.date ),
-        //     time: result.time
-        // })
+        await sendEmailNewAppointment({
+            date: formatDate( result.date ),
+            time: result.time
+        })
 
         res.json({
             msg: 'Your Reservation was made correctly'
@@ -35,10 +35,9 @@ const getAppointmentsByDate = async (req, res ) => {
     }
 
     const isoDate = formatISO(newDate)
-    const appointments = await Appointment.find({ 
-        date: {
-            $gte : startOfDay(new Date(isoDate)),
-            $lte: endOfDay(new Date(isoDate))
+    const appointments = await Appointment.find({ date: {
+        $gte : startOfDay(new Date(isoDate)),
+        $lte: endOfDay(new Date(isoDate))
     }}).select('time')
 
     res.json(appointments)
@@ -53,12 +52,11 @@ const getAppointmentById = async (req, res) => {
     // Validar que exista
     const appointment = await Appointment.findById(id).populate('services')
     if(!appointment) {
-        return handleNotFoundError('Appoinment do not exist', res)
+        return handleNotFoundError('The Appoinment do not exist', res)
     }
 
-    // To show only if is your Appoinment
     if(appointment.user.toString() !== req.user._id.toString()) {
-        const error = new Error('You do not have Acceses')
+        const error = new Error('You do not have the permissions')
         return res.status(403).json({msg: error.message})
     }
 
@@ -75,20 +73,19 @@ const updateAppointment = async (req, res) => {
     // Validar que exista
     const appointment = await Appointment.findById(id).populate('services')
     if(!appointment) {
-        return handleNotFoundError('The Appoiment Do not exist', res)
+        return handleNotFoundError('The Appoinment do not exist', res)
     }
 
     if(appointment.user.toString() !== req.user._id.toString()) {
-        const error = new Error('You do not have Accesses')
+        const error = new Error('You do not have the permissions')
         return res.status(403).json({msg: error.message})
     }
 
-    // Assemble the Object
-    const { date, time, totalAmount, services } = req.body
+    const { date, time, totalAmount, services } = req.body
     appointment.date = date
     appointment.time = time
     appointment.totalAmount = totalAmount
-    appointment.services  = services 
+    appointment.services = services
 
     try {
         const result = await appointment.save()
@@ -99,7 +96,7 @@ const updateAppointment = async (req, res) => {
         })
 
         res.json({
-            msg: 'Appoinment Updated Successfully'
+            msg: 'Appointment Updated Successfully'
         })
     } catch (error) {
         console.log(error)
@@ -116,11 +113,11 @@ const deleteAppointment = async (req, res) => {
     // Validar que exista
     const appointment = await Appointment.findById(id).populate('services')
     if(!appointment) {
-        return handleNotFoundError('La Cita no existe', res)
+        return handleNotFoundError('The Appoinment do not exist', res)
     }
 
     if(appointment.user.toString() !== req.user._id.toString()) {
-        const error = new Error('No tienes los permisos')
+        const error = new Error('You do not have the permissions')
         return res.status(403).json({msg: error.message})
     }
 
@@ -132,7 +129,7 @@ const deleteAppointment = async (req, res) => {
             time: result.time
         })
 
-        res.json({msg: 'Cita Cancelada Exitosamente'})
+        res.json({msg: 'Appointment Canceled Successfully'})
     } catch (error) {
         console.log(error)
     }
