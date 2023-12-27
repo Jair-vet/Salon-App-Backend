@@ -83,6 +83,7 @@ const updateAppointment = async (req, res) => {
         return res.status(403).json({msg: error.message})
     }
 
+    // Assemble the Object
     const { date, time, totalAmount, services } = req.body
     appointment.date = date
     appointment.time = time
@@ -106,41 +107,41 @@ const updateAppointment = async (req, res) => {
 
 }
 
-// const deleteAppointment = async (req, res) => {
-//     const { id } = req.params
-// 
-//     // Validar por object id
-//     if(validateObjectId(id, res)) return
-// 
-//     // Validar que exista
-//     const appointment = await Appointment.findById(id).populate('services')
-//     if(!appointment) {
-//         return handleNotFoundError('La Cita no existe', res)
-//     }
-// 
-//     if(appointment.user.toString() !== req.user._id.toString()) {
-//         const error = new Error('No tienes los permisos')
-//         return res.status(403).json({msg: error.message})
-//     }
-// 
-//     try {
-//         const result = await appointment.deleteOne()
-// 
-//         await sendEmailCancelledAppointment({
-//             date: formatDate( result.date ),
-//             time: result.time
-//         })
-// 
-//         res.json({msg: 'Cita Cancelada Exitosamente'})
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+const deleteAppointment = async (req, res) => {
+    const { id } = req.params
+
+    // Validar por object id
+    if(validateObjectId(id, res)) return
+
+    // Validar que exista
+    const appointment = await Appointment.findById(id).populate('services')
+    if(!appointment) {
+        return handleNotFoundError('La Cita no existe', res)
+    }
+
+    if(appointment.user.toString() !== req.user._id.toString()) {
+        const error = new Error('No tienes los permisos')
+        return res.status(403).json({msg: error.message})
+    }
+
+    try {
+        const result = await appointment.deleteOne()
+
+        await sendEmailCancelledAppointment({
+            date: formatDate( result.date ),
+            time: result.time
+        })
+
+        res.json({msg: 'Cita Cancelada Exitosamente'})
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export {
     createAppointment,
     getAppointmentsByDate,
     getAppointmentById,
     updateAppointment,
-    // deleteAppointment
+    deleteAppointment
 }
