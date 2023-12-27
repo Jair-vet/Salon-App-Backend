@@ -1,5 +1,5 @@
 import User from '../models/User.js'
-import { sendEmailVerification, /* sendEmailPasswordReset */ } from '../emails/authEmailService.js'
+import { sendEmailVerification, sendEmailPasswordReset } from '../emails/authEmailService.js'
 import { generateJWT, uniqueId } from '../utils/index.js'
 
 const register = async (req, res) => {
@@ -96,7 +96,7 @@ const forgotPassword = async (req, res) => {
     // Comprobar si existe el usuario
     const user = await User.findOne({email})
     if(!user) {
-        const error = new Error('El usuario no existe')
+        const error = new Error('User do not exist')
         return res.status(404).json({msg: error.message})
     }
 
@@ -111,7 +111,7 @@ const forgotPassword = async (req, res) => {
         })
     
         res.json({
-            msg: 'Hemos enviado un email con las instrucciones'
+            msg: 'We have sent an email with instructions'
         })
     } catch (error) {
         console.log(error)
@@ -124,11 +124,11 @@ const verifyPasswordResetToken = async (req, res) => {
     const isValidToken = await User.findOne({token})
     
     if(!isValidToken) {
-        const error = new Error('Hubo un error, Token no válido')
+        const error = new Error('There was an error, Invalid Token')
         return res.status(400).json({msg: error.message})
     }
 
-    res.json({msg: 'Token Válido'})
+    res.json({msg: 'Invalid Token'})
 }
 
 const updatePassword = async (req, res) => {
@@ -136,7 +136,7 @@ const updatePassword = async (req, res) => {
     const { token } = req.params
     const user = await User.findOne({token})
     if(!user) {
-        const error = new Error('Hubo un error, Token no válido')
+        const error = new Error('There was an error, Invalid Token')
         return res.status(400).json({msg: error.message})
     }
 
@@ -147,7 +147,7 @@ const updatePassword = async (req, res) => {
         user.password = password
         await user.save()
         res.json({
-            msg: 'Password modificado correctamente'
+            msg: 'Password successfully modified'
         })
     } catch (error) {
         console.log(error)
