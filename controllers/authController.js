@@ -165,7 +165,7 @@ const admin = async (req, res) => {
     const { user } = req
     
     if(!user.admin) {
-        const error = new Error('Acción no válida')
+        const error = new Error('Invalid Acction')
         return res.status(403).json({msg: error.message})
     }
 

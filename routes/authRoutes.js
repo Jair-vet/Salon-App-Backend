@@ -1,5 +1,5 @@
 import express from 'express'
-import { register, verifyAccount, login, user,   forgotPassword, verifyPasswordResetToken, updatePassword, /* admin */ } from '../controllers/authController.js'
+import { register, verifyAccount, login, user,   forgotPassword, verifyPasswordResetToken, updatePassword, admin } from '../controllers/authController.js'
 import authMiddleware from '../middleware/authMiddleware.js'
 
 const router = express.Router()
@@ -16,7 +16,7 @@ router.route('/forgot-password/:token')
 
 // Area Privada - Requiere un JWT 
 router.get('/user', authMiddleware, user )
-// router.get('/admin', authMiddleware, admin )
+router.get('/admin', authMiddleware, admin )
 
 
 export default router
