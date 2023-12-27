@@ -28,9 +28,9 @@ const generateJWT = (id) => {
     return token
 }
 
-// function formatDate(date) {
-//     return format(date, 'PPPP', {locale: es})
-// }
+function formatDate(date) {
+    return format(date, 'PPPP', {locale: es})
+}
 
 
 
@@ -39,5 +39,5 @@ export {
     handleNotFoundError,
     uniqueId,
     generateJWT,
-    // formatDate
+    formatDate
 }
